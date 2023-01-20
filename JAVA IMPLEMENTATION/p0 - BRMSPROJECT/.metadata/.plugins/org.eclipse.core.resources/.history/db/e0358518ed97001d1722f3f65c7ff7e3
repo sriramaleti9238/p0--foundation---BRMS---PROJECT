@@ -1,0 +1,67 @@
+package com.revature.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.mysql.cj.jdbc.CallableStatement;
+import com.revature.config.DataBaseConnection;
+import com.revature.dao.Reservation;
+
+public class ReservationImpl implements Reservation{
+	Connection con = DataBaseConnection.getConnection();
+	
+	CallableStatement cs = null;
+	
+	public void reserveTicket() throws SQLException {	
+		
+////		PreparedStatement pStatement = con.prepareStatement("select Bus_Reg_No,Seat_No,Berth,Status from BusSeatsData");
+//		cs = (CallableStatement) con.prepareCall("{call callBusSeatsData()}");
+//	    ResultSet rs = cs.executeQuery();
+//	    while(rs.next())
+//	    {
+//	    	System.out.println(" - - - - - - - - - - - - - - ");
+//	    	System.out.println("  "+rs.getString(1)+" | "+rs.getInt(2)+" | "+rs.getString(3)+" | "+rs.getString(4)+"");
+//	    }
+		
+		Scanner sc =new Scanner(System.in);
+		cs = (CallableStatement) con.prepareCall("{call enteringSD(?,?)}");
+		CallableStatement cs1 = (CallableStatement) con.prepareCall("{call callBusSeatsSecondData(?)}");
+		
+		System.out.println("Enter Source :");
+		String src = sc.nextLine();
+		System.out.println("Enter Destination :");
+		String dest = sc.nextLine();
+		
+		cs.setString(1,src);
+		cs.setString(2,dest);
+		cs.execute();
+		
+		 ResultSet resultSet = cs.executeQuery();
+		 
+		    while(resultSet.next())
+		    {
+		  //  	System.out.println(" - - - - - - - - - - - - - - ");
+		    	System.out.println("  "+resultSet.getString(1)+" | "+resultSet.getString(2)+" | "+resultSet.getString(3)+" | "+resultSet.getString(4)+" | "+resultSet.getTime(5)+" | "+resultSet.getTime(6)+" | "+resultSet.getString(7)+" | "+resultSet.getString(8)+" | "+resultSet.getString(9)+" ");
+		    }
+		    
+		    System.out.println("CHOOSE THE REGISTRATION NUMBER ");
+		    String regisNo =sc.nextLine(); 
+		    
+		    cs1.setString(1,regisNo);
+		    cs1.execute();
+		    
+		    ResultSet resultSet1 = cs1.executeQuery();
+		    
+		    while(resultSet1.next())
+		    {
+		  //  	System.out.println(" - - - - - - - - - - - - - - ");
+		    	System.out.println("  "+resultSet1.getString(1)+" | "+resultSet1.getString(2)+" | "+resultSet1.getString(3)+" ");
+		    }
+		  
+		System.out.println("procedure executed successfully");
+	}
+
+}

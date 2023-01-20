@@ -1,0 +1,28 @@
+package com.revature.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.mysql.cj.jdbc.CallableStatement;
+import com.revature.config.DataBaseConnection;
+import com.revature.dao.Reservation;
+
+public class ReservationImpl implements Reservation{
+	Connection con = DataBaseConnection.getConnection();
+	
+	CallableStatement cs = null;
+	public void reserveTicket() throws SQLException {	
+//		PreparedStatement pStatement = con.prepareStatement("select Bus_Reg_No,Seat_No,Berth,Status from BusSeatsData");
+		cs = (CallableStatement) con.prepareCall("{call callBusSeatsData()}");
+	    ResultSet rs = cs.executeQuery();
+	    while(rs.next())
+	    {
+	    	System.out.println(" - - - - - - - - - - - - - - ");
+	    	System.out.println("  "+rs.getString(1)+" | "+rs.getInt(2)+" | "+rs.getString(3)+" | "+rs.getString(4)+"");
+	    }
+		
+	}
+
+}

@@ -1,0 +1,101 @@
+package com.revature.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.mysql.cj.jdbc.CallableStatement;
+import com.revature.config.DataBaseConnection;
+import com.revature.dao.Reservation;
+
+public class ReservationImpl implements Reservation{
+	Connection con = DataBaseConnection.getConnection();
+	
+	CallableStatement cs = null;
+	
+	public void reserveTicket() throws SQLException {	
+		Scanner sc =new Scanner(System.in);
+		cs = (CallableStatement) con.prepareCall("{call enteringSD(?,?)}");
+		CallableStatement cs1 = (CallableStatement) con.prepareCall("{call callBusSeatsSecondData(?)}");
+		CallableStatement cs2 = (CallableStatement) con.prepareCall("{call bookingseat(?,?)}");
+		CallableStatement cs3 = (CallableStatement) con.prepareCall("{call callBusSeatsDataBooked(?, ?)}");
+		CallableStatement cs4 = (CallableStatement) con.prepareCall("{ call toselectAgaininJava(?, ?)}");
+		
+		System.out.println("Enter Source :");
+		String src = sc.nextLine();
+		System.out.println("Enter Destination :");
+		String dest = sc.nextLine();
+		
+		cs.setString(1,src);
+		cs.setString(2,dest);
+		cs.execute();
+		
+		 ResultSet resultSet = cs.executeQuery();
+		 
+		    while(resultSet.next())
+		    {
+		  //  	System.out.println(" - - - - - - - - - - - - - - ");
+		    	System.out.println("  "+resultSet.getString(1)+" | "+resultSet.getString(2)+" | "+resultSet.getString(3)+" | "+resultSet.getString(4)+" | "+resultSet.getTime(5)+" | "+resultSet.getTime(6)+" | "+resultSet.getString(7)+" | "+resultSet.getString(8)+" | "+resultSet.getString(9)+" ");
+		    }
+		    
+		    System.out.println("CHOOSE THE REGISTRATION NUMBER ");
+		    String regisNo =sc.nextLine(); 
+		    
+		    cs1.setString(1,regisNo);
+		    cs1.execute();
+		    
+		    ResultSet resultSet1 = cs1.executeQuery();
+		    
+		    while(resultSet1.next())
+		    {
+		  //  	System.out.println(" - - - - - - - - - - - - - - ");
+		    	System.out.println("  "+resultSet1.getString(1)+" | "+resultSet1.getString(2)+" | "+resultSet1.getString(3)+" ");
+		    }
+		    System.out.println(" CHOOSE THE SEAT NUMBER ");
+		    
+		    int selectingSeat = sc.nextInt();
+		    String regisNo1 = regisNo; 
+		    cs2.setInt(1,selectingSeat);
+		    cs2.setString(2,regisNo1);
+		    cs2.execute();
+		    
+		    cs3.setInt(1,selectingSeat);
+		    cs3.setString(2,regisNo1);
+		    cs3.execute();
+		    ResultSet resultSet2 = cs3.executeQuery();
+		    while(resultSet2.next())
+		    {
+		  //  	System.out.println(" - - - - - - - - - - - - - - ");
+		    	System.out.println("  "+resultSet2.getString(1)+" | "+resultSet2.getInt(2)+" | "+resultSet2.getString(3)+" | "+resultSet2.getString(4)+" | "+resultSet2.getString(5)+" | "+resultSet2.getTimestamp(6)+" ");
+		    }
+
+		System.out.println("\n\n ------ TICKET BOOKED SUCCESSFULLY -------- \n\n");
+		
+//		System.out.println(" ---- ENTER 1 TO GENERATE FULL TICKET ----- ");
+//		
+//		int x = sc.nextInt();
+		
+		cs4.setInt(1,selectingSeat);
+	    cs4.setString(2,regisNo1);
+	    cs4.execute();
+	    ResultSet resultSet3 = cs4.executeQuery();
+	    while(resultSet3.next())
+	    {
+	  //  	System.out.println(" - - - - - - - - - - - - - - ");
+	    	System.out.println("  "+resultSet3.getString(1)+" | "+resultSet3.getString(2)+" | "+
+	  resultSet3.getString(3)+" | "+resultSet3.getString(4)+" | "+resultSet3.getString(5)+" | "
+	    			+resultSet3.getTimestamp(6)+" "
++resultSet3.getString(7)+" | "+resultSet3.getString(8)+" | "+resultSet3.getString(9)+" | "+
+	    			resultSet3.getInt(10)+" | "+resultSet3.getString(11)+" | "+
+resultSet3.getTimestamp(12)+" "+resultSet3.getString(13)+" | "+resultSet3.getTimestamp(14)+" | "+
+	    			resultSet3.getTimestamp(15)+" | "+resultSet3.getString(16)+" ");
+	    }
+		
+	    System.out.println(" ---- TICKET IS GENERATED :) ----- ");
+		
+		
+		
+	}
+}

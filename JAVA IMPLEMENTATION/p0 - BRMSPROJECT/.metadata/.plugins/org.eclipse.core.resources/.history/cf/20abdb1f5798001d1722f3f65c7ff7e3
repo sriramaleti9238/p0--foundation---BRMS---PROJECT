@@ -1,0 +1,37 @@
+package com.revature.menu;
+
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
+import com.revature.dao.impl.ReservationImpl;
+
+public class ReservationMenu {
+	private static final Logger log = Logger.getLogger(ReservationMenu.class);
+	public static void main(String[] args) throws SQLException {
+		BasicConfigurator.configure();
+		Scanner sc=new Scanner(System.in);
+		ReservationImpl reservation =new ReservationImpl();
+		do
+		{
+			log.info("\n----Enter the Details----");
+			log.info("\t1.Reservation");
+			log.info("\t2.view your ticket ");
+			log.info("\t3.Exit ");
+			log.info("\tEnter your choice: ");
+			
+			int choice=sc.nextInt();
+			
+			switch(choice)
+			{
+				case 1:reservation.reserveTicket();break;
+				case 2:reservation.viewTicket();break;
+				case 3:log.info("---------- BYE BYE ----------");return;
+				default: log.info("enter 1 and 2 only");break;
+			}
+		}
+		while(true);
+	}
+}
