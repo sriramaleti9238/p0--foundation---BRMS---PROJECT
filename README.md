@@ -20,4 +20,4 @@ Confirmed Ticket will displayed by Date of travel, source, destination, time of 
 
 The other choice is getting the details by entering the reservation ticket unique id.
 
-When user enter the unique id , if it matches all the details will be displayed on the screen other wise it will shows the details are not found.
+When user enter the unique id , if the unique id matches in the database then all the details will be displayed on the screen other wise it will shows the details are not found.
