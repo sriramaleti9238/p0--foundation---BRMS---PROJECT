@@ -24,6 +24,3 @@ Confirmed Ticket will displayed by Date of travel, source, destination, time of 
 
 - When user enter the unique id , if the unique id matches in the database then all the details will be displayed on the screen other wise it will shows the details are not found.
 
-## Recorded video of the Bus Reservation Module 
-
-https://drive.google.com/file/d/10YNPzrg4105N4T85kJ3ReupNeoWaEiBx/view?usp=drivesdk 
