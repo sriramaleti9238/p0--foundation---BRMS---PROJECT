@@ -11,7 +11,7 @@ This project is about Bus Reservation Management System In this project I have u
 In this project my module is BusReservation.
 In BusReservation there will be two choices, one is booking the ticket and another one is view the ticket using unique id. 
 
-In BusReservation the user enters the source and destination , it will display all the Buses with their Bus details including Bus Registration number ,by choosing the Bus Registration number the number of available seats and booked seats will be displayed.
+In BusReservation the user enters the source and destination , it will display all the Buses with their Bus details including Bus Registration number ,by choosing the Bus Registration number , the number of available seats and booked seats will be displayed.
 
 From that data the user can select the available seats and by selecting one of the seats , the ticket will be booked and an unique ticket id will be generated and the reservation date and time will be displayed with the full details of the user .
 
